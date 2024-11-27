@@ -17,11 +17,11 @@ public class DrivingLogRegistered extends AbstractEvent {
     private String purpose;
     private String departure;
     private String departureTime;
-    private int accumulatedDistanceBefore;
+    private Integer accumulatedDistanceBefore;
     private String destination;
     private String arrivalTime;
-    private int accumulatedDistanceAfter;
-    private int drivingDistance;
+    private Integer accumulatedDistanceAfter;
+    private Integer drivingDistance;
 
     public DrivingLogRegistered(VehiclePerformance aggregate) {
         super(aggregate);

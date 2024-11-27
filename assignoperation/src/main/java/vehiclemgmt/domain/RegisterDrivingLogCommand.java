@@ -12,10 +12,10 @@ public class RegisterDrivingLogCommand {
     private Date registrationDate;
     private String departure;
     private String departureTime;
-    private int accumulatedDistanceBefore;
+    private Integer accumulatedDistanceBefore;
     private String destination;
     private String arrivalTime;
-    private int accumulatedDistanceAfter;
+    private Integer accumulatedDistanceAfter;
     private Double drivingDistance;
     private Purpose purpose;
     private Period period;

@@ -28,14 +28,14 @@ public class VehiclePerformance {
     private String departureTime;
 
     @Embedded
-    private int accumulatedDistanceBefore;
+    private Integer accumulatedDistanceBefore;
 
     private String destination;
 
     private String arrivalTime;
 
     @Embedded
-    private int accumulatedDistanceAfter;
+    private Integer accumulatedDistanceAfter;
 
     private Double drivingDistance;
 

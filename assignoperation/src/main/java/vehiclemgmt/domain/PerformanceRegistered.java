@@ -13,7 +13,7 @@ public class PerformanceRegistered extends AbstractEvent {
 
     private String registrationId;
     private String vehicleNumber;
-    private int accumulatedDistanceAfter;
+    private Integer accumulatedDistanceAfter;
     private Double drivingDistance;
     private Purpose purpose;
     private Period period;
