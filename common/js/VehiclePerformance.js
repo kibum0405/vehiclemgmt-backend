@@ -15,7 +15,7 @@ $(document).ready(function(){
             { "Header": "DrivingDistance", "Name": "drivingDistance", "Type": "Int", "Align": "Center", "Width":120, "CanEdit":1},  
             { "Header": "Purpose", "Name": "purpose", "Type": "Enum", "Enum": "|DepartmentWork|BusinessTrip|Commute|Event", "EnumKeys": "|DepartmentWork|BusinessTrip|Commute|Event", "Align": "Center", "Width":120, "CanEdit":1},  
             {"Header": ["Period", "from"], "Name": "from", "Type": "Date", "Width": 110},
-{"Header": ["Period", "to"], "Name": "to", "Type": "Date", "Width": 110}
+            {"Header": ["Period", "to"], "Name": "to", "Type": "Date", "Width": 110}
        ]
    };
 

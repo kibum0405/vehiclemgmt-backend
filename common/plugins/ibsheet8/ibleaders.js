@@ -17,5 +17,5 @@ var ibleaders = ibleaders || {
    * - licenseType이 "value" 일 경우 라이선스 값을 기입한다.
    * - licenseType이 "file" 일 경우 라이선스 파일 명을 기입한다.
    */
-  license: ""
+  license: "W2FtSztPKCBzbD8emM5ZzV7fAQnTXcJYS4gLHA0bXp0PTx1EGsBbEA6NicldTx+aXx0MG0IbRZ8HD1uL3srbz="
 };
