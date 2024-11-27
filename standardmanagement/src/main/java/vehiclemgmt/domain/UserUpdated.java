@@ -13,7 +13,7 @@ public class UserUpdated extends AbstractEvent {
 
     private Long id;
     private String name;
-    private Email email;
+    private String email;
 
     public UserUpdated(User aggregate) {
         super(aggregate);

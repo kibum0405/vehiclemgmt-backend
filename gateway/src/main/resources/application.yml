@@ -17,8 +17,8 @@ spring:
           uri: http://localhost:8083
           predicates:
             - Path=/users/**, /vehicles/**, 
-        - id: frontend
-          uri: http://localhost:8080
+        - id: common
+          uri: http://localhost:8081
           predicates:
             - Path=/**
 #>>> API Gateway / Routes
