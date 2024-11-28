@@ -20,7 +20,7 @@ spring:
         - id: common
           uri: http://localhost:8081
           predicates:
-            - Path=/**
+            - Path=/common/**
 #>>> API Gateway / Routes
       globalcors:
         corsConfigurations:
