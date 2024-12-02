@@ -1,3 +1,4 @@
+let rowData = [];
 $(document).ready(function(){
     var OPT = {
         "Cfg": {
@@ -11,6 +12,7 @@ $(document).ready(function(){
             }
         },
         Cols:[
+            {"Header": "No", "Name": "No", "Type": "Int", "Align": "Center", "Width":140, "CanEdit":1},  
             {"Header": "requesterName", "Name": "requesterName", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":1},  
             {"Header": "organization", "Name": "organization", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":1},  
             {"Header": "employeeNumber", "Name": "employeeNumber", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":1},  
@@ -45,28 +47,119 @@ $(document).ready(function(){
    });
 });
 
-function retrieve(){
-    fetch("https://localhost:8088/carAssignments", {
-        method: 'GET',
-        headers: {
-            "Cache-Control": "no-cache",
-            "Pragma": "no-cache",
-            "Content-Type": "application/json"
+function retrieve() {
+    // 예시 데이터
+    const exampleData = [
+        {
+            No: 1,
+            requesterName: "John Doe",
+            organization: "Company A",
+            employeeNumber: "12345",
+            officeNumber: "101",
+            mobileNumber: "555-1234",
+            requestDate: "2023-10-01",
+            approverInfo: "Jane Smith",
+            approverPosition: "Manager",
+            usagePurpose: "Business Meeting",
+            numberOfPassengers: "3",
+            routeSetting: "Route A",
+            remarks: "N/A",
+            passengerContact: "555-5678",
+            attachedDocuments: "Document1.pdf",
+            cancellationReason: "N/A",
+            usageCategory: "BusinessSupport",
+            carType: "Sedan",
+            mainDepartment: "Seoul",
+            operationSection: "City",
+            operationType: "RoundTrip",
+            includeDriver: "Yes",
+            progressStage: "Received",
+            from: "2023-10-01",
+            to: "2023-10-02"
+        },
+        {
+            No: 2,
+            requesterName: "Alice Brown",
+            organization: "Company B",
+            employeeNumber: "67890",
+            officeNumber: "202",
+            mobileNumber: "555-6789",
+            requestDate: "2023-10-02",
+            approverInfo: "Bob White",
+            approverPosition: "Director",
+            usagePurpose: "Client Visit",
+            numberOfPassengers: "2",
+            routeSetting: "Route B",
+            remarks: "Urgent",
+            passengerContact: "555-9876",
+            attachedDocuments: "Document2.pdf",
+            cancellationReason: "N/A",
+            usageCategory: "ExternalActivity",
+            carType: "Van",
+            mainDepartment: "Pohang",
+            operationSection: "Suburb",
+            operationType: "OneWay",
+            includeDriver: "No",
+            progressStage: "AssignmentCompleted",
+            from: "2023-10-02",
+            to: "2023-10-03"
+        },
+        {
+            No: 3,
+            requesterName: "John Doe",
+            organization: "Company C",
+            employeeNumber: "54321",
+            officeNumber: "303",
+            mobileNumber: "555-4321",
+            requestDate: "2023-10-03",
+            approverInfo: "Eve Black",
+            approverPosition: "Supervisor",
+            usagePurpose: "Site Inspection",
+            numberOfPassengers: "4",
+            routeSetting: "Route C",
+            remarks: "Check equipment",
+            passengerContact: "555-6543",
+            attachedDocuments: "Document3.pdf",
+            cancellationReason: "N/A",
+            usageCategory: "BusinessSupport",
+            carType: "Truck",
+            mainDepartment: "Gwangyang",
+            operationSection: "City",
+            operationType: "RoundTrip",
+            includeDriver: "Yes",
+            progressStage: "AssignmentCancelled",
+            from: "2023-10-03",
+            to: "2023-10-04"
         }
-    }).then(res => {
-        return res.json();
-    }).then(json => {
-        json.forEach(row => {
-            if (row.period) {
-                row.from = row.period.from;
-                row.to = row.period.to;
-            }
-        });
-        sheet.loadSearchData(json)
-    }).catch(error => {
-        console.error("에러", error);
-    });
+    ];
+    rowData = exampleData;
+
+    // 예시 데이터를 시트에 로드
+    sheet.loadSearchData(exampleData);
 }
+
+// function retrieve(){
+//     fetch("https://localhost:8088/carAssignments", {
+//         method: 'GET',
+//         headers: {
+//             "Cache-Control": "no-cache",
+//             "Pragma": "no-cache",
+//             "Content-Type": "application/json"
+//         }
+//     }).then(res => {
+//         return res.json();
+//     }).then(json => {
+//         json.forEach(row => {
+//             if (row.period) {
+//                 row.from = row.period.from;
+//                 row.to = row.period.to;
+//             }
+//         });
+//         sheet.loadSearchData(json)
+//     }).catch(error => {
+//         console.error("에러", error);
+//     });
+// }
 
 function addData(){
    sheet.addRow();
@@ -142,4 +235,84 @@ function submitRegisterDrivingLog(data){
     });
 
     
+}
+function searchSingleResult(id){
+    const searchId = parseInt(id, 10);
+
+    const result = rowData.find(row => row.No === searchId);
+
+    if (result) {
+        sheet.loadSearchData([result]);
+    } else {
+        alert("해당 ID에 대한 결과가 없습니다.");
+    }
+
+    // $.ajax({
+    //     url: `https://localhost:8088/carAssignments/`,
+    //     method: 'GET',
+    //     headers: {
+    //         "Cache-Control": "no-cache",
+    //         "Pragma": "no-cache",
+    //         "Content-Type": "application/json"
+    //     },
+    //     success: function(result) {
+    //         if (result) {
+    //             sheet.loadSearchData([result]);
+    //         } else {
+    //             alert("해당 ID에 대한 결과가 없습니다.");
+    //         }
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error("에러", error);
+    //         alert("데이터를 가져오는 중 오류가 발생했습니다.");
+    //     }
+    // });
+}
+
+function searchMultipleResult(params) {
+    // 모든 검색 조건이 비어있는지 확인
+    const allEmpty = !params.requesterName && !params.employeeNumber && !params.approverPosition;
+
+    if (allEmpty) {
+        alert("검색할 내용을 입력하세요.");
+        return;
+    }
+
+    // 여러 검색 조건을 기반으로 데이터를 필터링
+    const results = rowData.filter(row => {
+        const matchesRequesterName = params.requesterName ? row.requesterName.includes(params.requesterName) : true;
+        const matchesEmployeeNumber = params.employeeNumber ? row.employeeNumber.includes(params.employeeNumber) : true;
+        const matchesApproverPosition = params.approverPosition ? row.approverPosition.includes(params.approverPosition) : true;
+
+        return matchesRequesterName && matchesEmployeeNumber && matchesApproverPosition;
+    });
+
+    if (results.length > 0) {
+        sheet.loadSearchData(results);
+    } else {
+        alert("해당 조건에 대한 결과가 없습니다.");
+    }
+
+    // const queryParams = new URLSearchParams(params).toString();
+
+    // $.ajax({
+    //     url: `https://localhost:8088/carAssignments?${queryParams}`,
+    //     method: 'GET',
+    //     headers: {
+    //         "Cache-Control": "no-cache",
+    //         "Pragma": "no-cache",
+    //         "Content-Type": "application/json"
+    //     },
+    //     success: function(results) {
+    //         if (results.length > 0) {
+    //             sheet.loadSearchData(results);
+    //         } else {
+    //             alert("해당 조건에 대한 결과가 없습니다.");
+    //         }
+    //     },
+    //     error: function(xhr, status, error) {
+    //         console.error("에러", error);
+    //         alert("데이터를 가져오는 중 오류가 발생했습니다.");
+    //     }
+    // });
 }

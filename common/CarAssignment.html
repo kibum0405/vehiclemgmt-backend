@@ -47,7 +47,7 @@
             .hamburger {
                 font-size: 30px;
                 cursor: pointer;
-                padding: 10px;
+                padding: 0px;
             }
             .sidebar {
                 height: 100%;
@@ -87,8 +87,10 @@
         <div id="mySidebar" class="sidebar">
             <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
             <a href="/" style="font-size: 20px; color: #f1f1f1;">Home</a>
-            <a href="/carAssignments">Car Assignments</a>
-            <a href="/vehicles">Vehicles</a>
+            <a href="/carAssignments">carAssignment</a>,
+            <a href="/vehiclePerformances">vehiclePerformance</a>,
+            <a href="/users">user</a>,
+            <a href="/vehicles">vehicle</a>
         </div>
 
         <h1>Assignoperation</h1>
@@ -98,6 +100,23 @@
         <button type="button" class='buttonLabelAddRow' onclick="addData()">신규</button>
         <button type="button" class='buttonLabelDeleteRow' onclick="deleteData()">삭제</button>
         <button type="button" onclick="openDialog('registerDrivingLog')">RegisterDrivingLog</button>
+        <br><br>
+        <!-- <div>
+            <label for="searchId">ID:</label>
+            <input type="text" id="searchId" name="searchId">
+            <button type="button" onclick="searchSingle()">검색</button>
+        </div>
+        <br> -->
+        <div>
+            <label for="searchId">RequesterName:</label>
+            <input type="text" id="searchRequesterName" name="searchRequesterName"><br><br>
+            <label for="searchId">EmployeeNumber:</label>
+            <input type="text" id="searchEmployeeNumber" name="searchEmployeeNumber"><br><br>
+            <label for="searchId">ApproverPosition:</label>
+            <input type="text" id="searchApproverPosition" name="searchApproverPosition"><br><br>
+            <button type="button" onclick="searchMultiple()">검색</button>
+        </div>
+        <br>
         <div id="sheet_DIV" style="width:100%;height:500px"></div>
 
         <!-- The Modal -->
@@ -198,6 +217,23 @@
                 } else {
                     sidebar.style.width = "250px";
                 }
+            }
+
+            function searchSingle() {
+                const searchId = document.getElementById('searchId').value;
+                searchSingleResult(searchId);
+            }
+            function searchMultiple() {
+                const searchRequesterName = document.getElementById('searchRequesterName').value;
+                const searchEmployeeNumber = document.getElementById('searchEmployeeNumber').value;
+                const searchApproverPosition = document.getElementById('searchApproverPosition').value;
+
+                const searchParams = {
+                    requesterName: searchRequesterName,
+                    employeeNumber: searchEmployeeNumber,
+                    approverPosition: searchApproverPosition
+                };
+                searchMultipleResult(searchParams);
             }
         </script>
     </body>

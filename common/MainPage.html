@@ -17,7 +17,7 @@
         }
         .sidebar {
             height: 100%;
-            width: 0;
+            width: 0px;
             position: fixed;
             z-index: 1;
             top: 0;
@@ -30,7 +30,7 @@
         .sidebar a {
             padding: 10px 15px;
             text-decoration: none;
-            font-size: 25px;
+            font-size: 18px;
             color: #818181;
             display: block;
             transition: 0.3s;
@@ -41,17 +41,12 @@
         .closebtn {
             position: absolute;
             top: 0;
-            right: 25px;
+            right: 0px;
             font-size: 36px;
             margin-left: 50px;
         }
         .content {
             padding: 20px;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
         }
         .card {
             background-color: #f1f1f1;
@@ -61,12 +56,9 @@
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
             cursor: pointer;
-            width: calc(50% - 20px); /* 2 columns with margin */
-            height: 200px; /* Square shape */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            width: 200px; /* 변경: 카드 너비 설정 */
+            display: inline-block; /* 변경: 인라인 블록으로 설정 */
+            vertical-align: top; /* 변경: 수직 정렬 설정 */
         }
         .card:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
