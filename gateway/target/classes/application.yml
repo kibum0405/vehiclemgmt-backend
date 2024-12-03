@@ -12,15 +12,15 @@ spring:
         - id: assignoperation
           uri: http://localhost:8082
           predicates:
-            - Path=/carAssignments/**, /vehiclePerformances/**, 
+            - Path=/api/carAssignments/**, /api/vehiclePerformances/**, 
         - id: standardmanagement
           uri: http://localhost:8083
           predicates:
             - Path=/users/**, /vehicles/**, 
-        - id: common
+        - id: nginx
           uri: http://localhost:8081
           predicates:
-            - Path=/common/**
+            - Path=/**, /carAssignments/**, /vehicles/**, /vehiclePerformances/**
 #>>> API Gateway / Routes
       globalcors:
         corsConfigurations:

@@ -97,7 +97,7 @@
         <p>CarAssignment</p>
         <button type="button" class='buttonLabelSearch' onclick="retrieve()">조회</button>
         <button type="button" class='buttonLabelSave' onclick="save()">저장</button>
-        <button type="button" class='buttonLabelAddRow' onclick="addData()">신규</button>
+        <button type="button" class='buttonLabelAddRow' onclick="openCarAssignmentDialog()">신규</button>
         <button type="button" class='buttonLabelDeleteRow' onclick="deleteData()">삭제</button>
         <button type="button" onclick="openDialog('registerDrivingLog')">RegisterDrivingLog</button>
         <br><br>
@@ -117,7 +117,102 @@
             <button type="button" onclick="searchMultiple()">검색</button>
         </div>
         <br>
-        <div id="sheet_DIV" style="width:100%;height:500px"></div>
+        <div id="sheet_DIV" style="width:100%;height:400px"></div>
+        <div id="detailSheet_DIV" style="width:100%;height:100%"></div>
+
+        <div id="carAssignmentDialog" style="z-index:99;" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeCarAssignmentDialog()">&times;</span>
+                <h2>CarAssignment</h2>
+                <form id="carAssignmentForm">
+                    <label for="No">No:</label>
+                    <input type="number" id="No" name="No"><br><br>
+                    <label for="requesterName">RequesterName:</label>
+                    <div id="inputList">
+                        <div class="input-container">
+                            <input type="text" name="requesterName[]" placeholder="RequesterName"><br>
+                        </div>
+                    </div><br>
+                    <button type="button" onclick="addInput()">Add</button><br><br>
+                    <label for="organization">Organization:</label>
+                    <input type="text" id="organization" name="organization"><br><br>
+                    <label for="employeeNumber">EmployeeNumber:</label>
+                    <input type="text" id="employeeNumber" name="employeeNumber"><br><br>
+                    <label for="officeNumber">OfficeNumber:</label>
+                    <input type="text" id="officeNumber" name="officeNumber"><br><br>
+                    <label for="mobileNumber">MobileNumber:</label>
+                    <input type="text" id="mobileNumber" name="mobileNumber"><br><br>
+                    <label for="requestDate">RequestDate:</label>
+                    <input type="date" id="requestDate" name="requestDate"><br><br>
+                    <label for="approverInfo">ApproverInfo:</label>
+                    <input type="text" id="approverInfo" name="approverInfo"><br><br>
+                    <label for="approverPosition">ApproverPosition:</label>
+                    <input type="text" id="approverPosition" name="approverPosition"><br><br>
+                    <label for="usagePurpose">UsagePurpose:</label>
+                    <input type="text" id="usagePurpose" name="usagePurpose"><br><br>
+                    <label for="numberOfPassengers">NumberOfPassengers:</label>
+                    <input type="text" id="numberOfPassengers" name="numberOfPassengers"><br><br>
+                    <label for="routeSetting">RouteSetting:</label>
+                    <input type="text" id="routeSetting" name="routeSetting"><br><br>
+                    <label for="remarks">Remarks:</label>
+                    <input type="text" id="remarks" name="remarks"><br><br>
+                    <label for="passengerContact">PassengerContact:</label>
+                    <input type="text" id="passengerContact" name="passengerContact"><br><br>
+                    <label for="attachedDocuments">AttachedDocuments:</label>
+                    <input type="text" id="attachedDocuments" name="attachedDocuments"><br><br>
+                    <label for="cancellationReason">CancellationReason:</label>
+                    <input type="text" id="cancellationReason" name="cancellationReason"><br><br>
+                    <label for="usageCategory">UsageCategory:</label>
+                    <select id="usageCategory" name="usageCategory">
+                        <option value="BusinessSupport">BusinessSupport</option>
+                        <option value="ExternalActivity">ExternalActivity</option>
+                    </select><br><br>
+                    <label for="carType">CarType:</label>
+                    <select id="carType" name="carType">
+                        <option value="Sedan">Sedan</option>
+                        <option value="Van">Van</option>
+                        <option value="Truck">Truck</option>
+                    </select><br><br>
+                    <label for="mainDepartment">MainDepartment:</label>
+                    <select id="mainDepartment" name="mainDepartment">
+                        <option value="Seoul">Seoul</option>
+                        <option value="Pohang">Pohang</option>
+                        <option value="Gwangyang">Gwangyang</option>
+                    </select><br><br>
+                    <label for="operationSection">OperationSection:</label>
+                    <select id="operationSection" name="operationSection">
+                        <option value="City">City</option>
+                        <option value="Suburb">Suburb</option>
+                    </select><br><br>
+                    <label for="operationType">OperationType:</label>
+                    <select id="operationType" name="operationType">
+                        <option value="OneWay">OneWay</option>
+                        <option value="RoundTrip">RoundTrip</option>
+                    </select><br><br>
+                    <label for="includeDriver">IncludeDriver:</label>
+                    <select id="includeDriver" name="includeDriver">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select><br><br>
+                    <label for="progressStage">ProgressStage:</label>
+                    <select id="progressStage" name="progressStage">
+                        <option value="All">All</option>
+                        <option value="Received">Received</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="AssignmentCompleted">AssignmentCompleted</option>
+                        <option value="AssignmentCancelled">AssignmentCancelled</option>
+                    </select><br><br>
+                    <div>
+                        <label for="period">Period</label><br><br>
+                        <label for="from">From:</label>
+                        <input type="date" id="from" name="from"><br><br>
+                        <label for="to">To:</label>
+                        <input type="date" id="to" name="to"><br><br>
+                    </div>
+                    <button type="button" onclick="saveCarAssignment()">Register</button>
+                </form>
+            </div>
+        </div>
 
         <!-- The Modal -->
         <div id="registerDrivingLog" class="modal">
@@ -165,6 +260,12 @@
         </div>
 
         <script>
+            function openCarAssignmentDialog() {
+                openDialog('carAssignmentDialog');
+            }
+            function closeCarAssignmentDialog() {
+                closeDialog('carAssignmentDialog');
+            }
             function openDialog(id) {
                 document.getElementById(id).style.display = "block";
             }
@@ -234,6 +335,49 @@
                     approverPosition: searchApproverPosition
                 };
                 searchMultipleResult(searchParams);
+            }
+            function addInput() {
+                const inputList = document.getElementById('inputList');
+                const newInputContainer = document.createElement('div');
+                newInputContainer.className = 'input-container';
+                newInputContainer.innerHTML = '<input type="text" name="requesterName[]" placeholder="Requester Name"><br>';
+                inputList.appendChild(newInputContainer);
+            }
+            function saveCarAssignment(){
+                const requesterNameElements = document.getElementsByName('requesterName[]');
+                const requesterNames = Array.from(requesterNameElements).map(input => input.value);
+
+                const data = {
+                    No: document.getElementById('No').value,
+                    requesterName: requesterNames,
+                    organization: document.getElementById('organization').value,
+                    employeeNumber: document.getElementById('employeeNumber').value,
+                    officeNumber: document.getElementById('officeNumber').value,
+                    mobileNumber: document.getElementById('mobileNumber').value,
+                    requestDate: document.getElementById('requestDate').value,
+                    approverInfo: document.getElementById('approverInfo').value,
+                    approverPosition: document.getElementById('approverPosition').value,
+                    usagePurpose: document.getElementById('usagePurpose').value,
+                    numberOfPassengers: document.getElementById('numberOfPassengers').value,
+                    routeSetting: document.getElementById('routeSetting').value,
+                    remarks: document.getElementById('remarks').value,
+                    passengerContact: document.getElementById('passengerContact').value,
+                    attachedDocuments: document.getElementById('attachedDocuments').value,
+                    cancellationReason: document.getElementById('cancellationReason').value,
+                    usageCategory: document.getElementById('usageCategory').value,
+                    carType: document.getElementById('carType').value,
+                    mainDepartment: document.getElementById('mainDepartment').value,
+                    operationSection: document.getElementById('operationSection').value,
+                    operationType: document.getElementById('operationType').value,
+                    includeDriver: document.getElementById('includeDriver').value,
+                    progressStage: document.getElementById('progressStage').value,
+                    period: {
+                        from: document.getElementById('from').value,
+                        to: document.getElementById('to').value
+                    }
+                };
+                save(data);
+                closeCarAssignmentDialog();
             }
         </script>
     </body>
