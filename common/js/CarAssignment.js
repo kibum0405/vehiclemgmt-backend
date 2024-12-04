@@ -38,29 +38,38 @@ $(document).ready(function(){
             {"Header": ["Period", "from"], "Name": "from", "Type": "Date", "Format": "yyyy-MM-dd", "EmptyValue": "날짜를 입력해주세요", "Width": 140},
             {"Header": ["Period", "to"], "Name": "to", "Type": "Date", "Format": "yyyy-MM-dd", "EmptyValue": "날짜를 입력해주세요", "Width": 140}
        ],
-        Events: {
-            onClick: function(evtParam) {
-                if (evtParam.col === "requesterName") {
-                    console.log("requesterName clicked", evtParam);
-                    // 클릭된 행의 원본 데이터를 가져옵니다.
-                    var originalRowData = rowData.find(item => item.No === evtParam.row.No);
-                    var requesterNames = originalRowData.requesterName;
-                    var detailData = [];
-        
-                    // requesterName이 배열인 경우, 각 요소를 개별 행으로 추가합니다.
-                    if (Array.isArray(requesterNames)) {
-                        requesterNames.forEach(function(name) {
-                            detailData.push({ "requesterName": name });
-                        });
-                    } else {
-                        detailData.push({ "requesterName": requesterNames });
-                    }
-        
-                    // detailSheet를 업데이트합니다.
-                    detailSheet.loadSearchData(detailData);
+       Events: {
+        onClick: function(evtParam) {
+            var originalRowData = rowData.find(item => item.No === evtParam.row.No);
+            var detailData = [];
+    
+            if (evtParam.col === "requesterName") {
+                console.log("requesterName clicked", evtParam);
+                var requesterNames = originalRowData.requesterName;
+                if (Array.isArray(requesterNames)) {
+                    requesterNames.forEach(function(data) {
+                        detailData.push({ "requesterName": data });
+                    });
+                } else {
+                    detailData.push({ "requesterName": requesterNames });
+                }
+            } 
+            if (evtParam.col === "organization") {
+                console.log("organization clicked", evtParam);
+                var organizationData = originalRowData.organization;
+                if (Array.isArray(organizationData)) {
+                    organizationData.forEach(function(data) {
+                        detailData.push({ "organization": data });
+                    });
+                } else {
+                    detailData.push({ "organization": organizationData });
                 }
             }
+            // 다른 필드에 대한 처리를 추가할 수 있습니다.
+    
+            detailSheet.loadSearchData(detailData);
         }
+    }
    };
 
    var detailSheetOptions = {
@@ -70,7 +79,8 @@ $(document).ready(function(){
             "MessageWidth": 300,
         },
         Cols:[
-            {"Header": "requesterName", "Name": "requesterName", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":0}
+            {"Header": "requesterName", "Name": "requesterName", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":0},
+            {"Header": "organization", "Name": "organization", "Type": "Text", "Align": "Center", "Width":140, "CanEdit":1},  
         ]
     };
 
@@ -92,7 +102,7 @@ function retrieve(){
         {
             "No": 1,
             "requesterName": ['John Doe', 'B', 'C'],
-            "organization": "Tech Corp",
+            "organization": ['A', 'B', 'C'],
             "employeeNumber": "E12345",
             "officeNumber": "123-456-7890",
             "mobileNumber": "987-654-3210",
@@ -174,7 +184,8 @@ function retrieve(){
     const displayData = exampleData.map(item => {
         return {
             ...item,
-            requesterName: Array.isArray(item.requesterName) ? item.requesterName[0] : item.requesterName
+            requesterName: Array.isArray(item.requesterName) ? item.requesterName[0] : item.requesterName,
+            organization: Array.isArray(item.organization) ? item.organization[0] : item.organization
         };
     });
     rowData = exampleData; 
