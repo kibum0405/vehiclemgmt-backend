@@ -15,24 +15,41 @@
                 margin: 0px;
             }
             .modal {
-                display: none; 
-                position: fixed; 
-                z-index: 1; 
+                display: none; /* 기본적으로 숨김 */
+                position: fixed; /* 화면 고정 */
+                z-index: 1; /* 최상단 레벨 */
                 left: 0;
                 top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgb(0,0,0);
-                background-color: rgba(0,0,0,0.4);
+                width: 100%; /* 전체 너비 */
+                height: 100vh; /* 전체 높이 */
+                background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
             }
+
             .modal-content {
-                background-color: #fefefe;
-                margin: 5% auto;
-                padding: 20px;
-                border: 1px solid #888;
-                width: 80%;
+                position: absolute; /* 절대 위치 지정 */
+                top: 50%; /* 세로 중앙 기준 */
+                left: 50%; /* 가로 중앙 기준 */
+                transform: translate(-50%, -50%); /* 중앙으로 이동 */
+                background-color: #fefefe; /* 모달 배경 */
+                padding: 20px; /* 내부 여백 */
+                border: 1px solid #888; /* 테두리 */
+                width: 80%; /* 모달 너비 */
+                max-width: 600px; /* 최대 너비 제한 */
+                border-radius: 8px; /* 둥근 모서리 */
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+                max-height: 80%; /* 최대 높이 제한 */
+                display: flex; /* 내부 요소 배치 */
+                flex-direction: column; /* 세로 정렬 */
             }
+
+            #carAssignmentForm {
+                overflow: auto; /* 내부 스크롤 활성화 */
+                flex: 1; /* form이 나머지 공간 차지 */
+                padding: 10px; /* form 내부 여백 */
+                max-height: 100%; /* form 최대 높이 */
+            }
+
+
             .close {
                 color: #aaa;
                 float: right;
@@ -55,12 +72,13 @@
                 height: 100%;
                 width: 0;
                 position: fixed;
-                z-index: 2;
+                z-index: 9;
                 top: 0;
                 left: 0;
                 background-color: #3d5575;
                 overflow-x: hidden;
                 transition: 0.5s;
+                border-right: 1px solid #D3D3D3;
             }
             .sidebar a {
                 padding: 10px 15px;
@@ -152,7 +170,6 @@
                 display: inline-block; /* 인라인 블록으로 설정 */
                 background-color: #F8D454; /* 밝은 노란색 배경 */
                 color: black; /* 텍스트 색상 */
-                border: 1px solid #e0e0e0; /* 테두리 색상 */
                 border-radius: 8px; /* 약간의 둥근 모서리 */
                 padding: 10px 15px; /* 스티커 내부 여백 */
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
@@ -207,7 +224,6 @@
                 border-radius: 8px; /* 둥근 모서리 */
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
                 padding: 20px; /* 카드 내부 여백 */
-                max-width: 500px; /* 카드 최대 너비 */
                 font-family: Arial, sans-serif; /* 기본 폰트 설정 */
             }
 
@@ -231,6 +247,53 @@
             .v-space {
                 flex-grow: 1; /* 여유 공간을 차지 */
             }
+
+            /* 컨테이너 스타일 */
+            .select-container {
+                position: relative;
+                margin-bottom: 15px;
+                width: 100%; /* 너비를 조정 가능 */
+            }
+
+            /* Select 스타일 */
+            .select-container select {
+                width: 100%; /* Select 너비를 컨테이너에 맞춤 */
+                padding: 10px 15px; /* 내부 여백 */
+                font-size: 16px; /* 글자 크기 */
+                font-family: Arial, sans-serif;
+                border: 1px solid #ccc; /* 테두리 색상 */
+                border-radius: 4px; /* 둥근 모서리 */
+                background-color: white; /* 배경색 */
+                appearance: none; /* 기본 Select 화살표 제거 */
+                outline: none; /* 포커스 외곽선 제거 */
+                cursor: pointer; /* 클릭 가능한 커서 */
+            }
+
+            /* Hover 효과 */
+            .select-container select:hover {
+                border-color: #888; /* Hover 시 테두리 색상 변경 */
+            }
+
+            /* Focus 효과 */
+            .select-container select:focus {
+                border-color: #2196F3; /* 파란색 테두리 (input 포커스 색상) */
+                box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); /* 부드러운 파란색 그림자 */
+                outline: none; /* 기본 포커스 외곽선 제거 */
+            }
+
+            /* Select의 화살표 커스터마이징 */
+            .select-container::after {
+                content: '▼'; /* 화살표 모양 */
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                pointer-events: none; /* 클릭 불가 */
+                font-size: 12px;
+                color: #888;
+                margin-top:10px;
+            }
+
         </style>
     </head>
     <body>
@@ -288,18 +351,24 @@
 
             <div id="carAssignmentDialog" style="z-index:99;" class="modal">
                 <div class="modal-content">
-                    <span class="close" onclick="closeCarAssignmentDialog()">&times;</span>
-                    <h2>CarAssignment</h2>
+                    <div class="default-row">
+                        <h2>CarAssignment</h2>
+                        <div class="v-space"></div>
+                        <span class="close" onclick="closeCarAssignmentDialog()">&times;</span>
+                    </div>
                     <form id="carAssignmentForm">
                         <label for="No">No:</label>
                         <input type="number" id="No" name="No"><br><br>
                         <label for="requesterName">RequesterName:</label>
                         <div id="inputList">
                             <div class="input-container">
-                                <input type="text" name="requesterName[]" placeholder="RequesterName"><br>
+                                <input type="text" name="requesterName[]"><br>
                             </div>
-                        </div><br>
-                        <button type="button" onclick="addInput()">Add</button><br><br>
+                        </div>
+                        <div class="default-row">
+                            <div class="v-space"></div>
+                            <button type="button" onclick="addInput()">Add</button><br><br>
+                        </div>
                         <label for="organization">Organization:</label>
                         <input type="text" id="organization" name="organization"><br><br>
                         <label for="employeeNumber">EmployeeNumber:</label>
@@ -328,54 +397,79 @@
                         <input type="text" id="attachedDocuments" name="attachedDocuments"><br><br>
                         <label for="cancellationReason">CancellationReason:</label>
                         <input type="text" id="cancellationReason" name="cancellationReason"><br><br>
-                        <label for="usageCategory">UsageCategory:</label>
-                        <select id="usageCategory" name="usageCategory">
-                            <option value="BusinessSupport">BusinessSupport</option>
-                            <option value="ExternalActivity">ExternalActivity</option>
-                        </select><br><br>
-                        <label for="carType">CarType:</label>
-                        <select id="carType" name="carType">
-                            <option value="Sedan">Sedan</option>
-                            <option value="Van">Van</option>
-                            <option value="Truck">Truck</option>
-                        </select><br><br>
-                        <label for="mainDepartment">MainDepartment:</label>
-                        <select id="mainDepartment" name="mainDepartment">
-                            <option value="Seoul">Seoul</option>
-                            <option value="Pohang">Pohang</option>
-                            <option value="Gwangyang">Gwangyang</option>
-                        </select><br><br>
-                        <label for="operationSection">OperationSection:</label>
-                        <select id="operationSection" name="operationSection">
-                            <option value="City">City</option>
-                            <option value="Suburb">Suburb</option>
-                        </select><br><br>
-                        <label for="operationType">OperationType:</label>
-                        <select id="operationType" name="operationType">
-                            <option value="OneWay">OneWay</option>
-                            <option value="RoundTrip">RoundTrip</option>
-                        </select><br><br>
-                        <label for="includeDriver">IncludeDriver:</label>
-                        <select id="includeDriver" name="includeDriver">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select><br><br>
-                        <label for="progressStage">ProgressStage:</label>
-                        <select id="progressStage" name="progressStage">
-                            <option value="All">All</option>
-                            <option value="Received">Received</option>
-                            <option value="Rejected">Rejected</option>
-                            <option value="AssignmentCompleted">AssignmentCompleted</option>
-                            <option value="AssignmentCancelled">AssignmentCancelled</option>
-                        </select><br><br>
-                        <div>
+                        <div class="select-container">
+                            <label for="usageCategory">Usage Category</label>
+                            <select id="usageCategory" required>
+                                <option value="BusinessSupport">Business Support</option>
+                                <option value="ExternalActivity">External Activity</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="carType">Car Type</label>
+                            <select id="carType" required>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Van">Van</option>
+                                <option value="Truck">Truck</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="mainDepartment">Main Department</label>
+                            <select id="mainDepartment" required>
+                                <option value="Seoul">Seoul</option>
+                                <option value="Pohang">Pohang</option>
+                                <option value="Gwangyang">Gwangyang</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="operationSection">Operation Section</label>
+                            <select id="operationSection" required>
+                                <option value="City">City</option>
+                                <option value="Suburb">Suburb</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="operationType">Operation Type</label>
+                            <select id="operationType" required>
+                                <option value="OneWay">One Way</option>
+                                <option value="RoundTrip">Round Trip</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="includeDriver">Include Driver</label>
+                            <select id="includeDriver" required>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="select-container">
+                            <label for="progressStage">Progress Stage</label>
+                            <select id="progressStage" required>
+                                <option value="All">All</option>
+                                <option value="Received">Received</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="AssignmentCompleted">Assignment Completed</option>
+                                <option value="AssignmentCancelled">Assignment Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="vue-card" style="margin-bottom:10px;">
                             <label for="period">Period</label><br><br>
                             <label for="from">From:</label>
                             <input type="date" id="from" name="from"><br><br>
                             <label for="to">To:</label>
-                            <input type="date" id="to" name="to"><br><br>
+                            <input type="date" id="to" name="to">
                         </div>
-                        <button type="button" onclick="saveCarAssignment()">Register</button>
+                        <div class="default-row">
+                            <div class="v-space"></div>
+                            <button type="button" onclick="saveCarAssignment()">Register</button>
+                        </div>
                     </form>
                 </div>
             </div>
